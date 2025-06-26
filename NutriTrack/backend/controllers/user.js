@@ -1,82 +1,41 @@
-const mongoose = require("mongoose");
-const User = require("../models/user");
-const Donator = require("../models/donator");
-const Entity = require("../models/entity");
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const conf = require("../jwt_secret/config");
-const {
-  createToken,
-  maxAge,
-  handleErrors,
-} = require("../public/javascripts/auth");
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-let usercontroller = {};
-
-/* Entities */
-
-/* Employees */
-usercontroller.employees_get = (req, res, next) => {
-  // Save all employees to local
-  User.find()
-    .then((result) => {
-      res.render("user/people/employees/employees", {
-        title: "Employees",
-        employees: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+exports.register = async (req, res) => {
+  try {
+    const { nome, email, password, tipo } = req.body;
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ error: 'Email já registado.' });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const novoUser = new User({ nome, email, passwordHash, tipo });
+    await novoUser.save();
+    res.status(201).json({ message: 'Utilizador registado com sucesso.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-usercontroller.stat_post = (req, res, next) => {
-  const id = req.params.id;
-
-  User.findByIdAndUpdate(id, req.body).then((result) => {
-    res.json({ redirect: "/user/employees/" });
-  });
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
+      return res.status(401).json({ error: 'Credenciais inválidas.' });
+    }
+    const token = jwt.sign({ id: user._id, tipo: user.tipo }, process.env.JWT_SECRET, { expiresIn: '2h' });
+    res.json({ token, user: { id: user._id, nome: user.nome, email: user.email, tipo: user.tipo } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-usercontroller.edit_get = (req, res, next) => {
-  const id = req.params.id;
-
-  User.findById(id)
-    .then((result) => {
-      res.render("user/people/employees/edit", {
-        title: "Edit Entity",
-        employee: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-passwordHash');
+    if (!user) return res.status(404).json({ error: 'Utilizador não encontrado.' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
-
-usercontroller.edit_post = (req, res, next) => {
-  const id = req.params.id;
-
-  User.findByIdAndUpdate(id, req.body).then((result) => {
-    res.redirect("/user/employees/");
-  });
-};
-
-/* Donators */
-usercontroller.donators_get = (req, res, next) => {
-  // Save all employees to local
-  Donator.find()
-    .then((result) => {
-      res.render("user/people/donators/donators", {
-        title: "Donators",
-        donators: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-module.exports = usercontroller;

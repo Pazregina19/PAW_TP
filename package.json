@@ -1,0 +1,22 @@
+{
+  "name": "paw_tp",
+  "version": "1.0.0",
+  "description": "NutriTrack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pazregina19/PAW_TP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pazregina19/PAW_TP/issues"
+  },
+  "homepage": "https://github.com/Pazregina19/PAW_TP#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
