@@ -1,0 +1,16 @@
+<html>
+<head><title>Registar | NutriTrack</title></head>
+<body>
+  <h1>Registo</h1>
+  <form action="/auth/register" method="POST">
+    <input type="text" name="nome" placeholder="Nome" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <select name="tipo">
+      <option value="paciente">Paciente</option>
+      <option value="nutricionista">Nutricionista</option>
+    </select>
+    <button type="submit">Registar</button>
+  </form>
+</body>
+</html>

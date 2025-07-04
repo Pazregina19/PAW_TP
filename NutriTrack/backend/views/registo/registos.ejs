@@ -1,0 +1,14 @@
+<html>
+<head><title>Registo de Cumprimento | NutriTrack</title></head>
+<body>
+  <h1>Registar Refeição</h1>
+  <form action="/cumprimentos" method="POST" enctype="multipart/form-data">
+    <input type="date" name="data" required />
+    <input type="text" name="refeicao" placeholder="Tipo de refeição" required />
+    <label><input type="checkbox" name="cumpriu" value="true" /> Cumpriu</label>
+    <textarea name="justificacao" placeholder="Justificação se não cumpriu"></textarea>
+    <input type="file" name="imagem" />
+    <button type="submit">Submeter</button>
+  </form>
+</body>
+</html>

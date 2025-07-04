@@ -1,6 +1,7 @@
-extends layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+<html>
+<head><title>Erro | NutriTrack</title></head>
+<body>
+  <h1>Erro <%= error.status %></h1>
+  <p><%= error.message %></p>
+</body>
+</html>
