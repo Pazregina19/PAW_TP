@@ -1,4 +1,4 @@
-const Pedido = require('../models/PedidoMudancaNutricionista');
+const Pedido = require('../models/Pedido');
 
 exports.listar = async (req, res) => {
   const pedidos = await Pedido.find().populate('pacienteId novoNutricionistaId');

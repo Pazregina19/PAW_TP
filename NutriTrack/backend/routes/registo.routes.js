@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var cumprimentoController = require('../controllers/registo.controller');
+var registoController = require('../controllers/registo.controller');
 var auth = require('../middleware/auth');
 
 router.get('/:pacienteId', auth.verifyToken, registoController.listarPorPaciente);

@@ -1,4 +1,4 @@
-const Paciente = require('../models/Paciente');
+const Paciente = require('../models/Pacientes');
 
 exports.listar = async (req, res) => {
   const pacientes = await Paciente.find().populate('userId nutricionistaId');

@@ -1,4 +1,4 @@
-const Mensagem = require('../models/Mensagem');
+const Mensagem = require('../models/Mensagens');
 
 exports.listarPorUser = async (req, res) => {
   const msgs = await Mensagem.find({

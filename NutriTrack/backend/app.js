@@ -8,12 +8,13 @@ var cors = require('cors');
 require('dotenv').config();
 
 // Conexão MongoDB
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/NutriTrack';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://8210253:admin123@paw.nxjanlf.mongodb.net/';
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
   console.log('Conectado ao MongoDB');
+  console.log("http://localhost:3000");
 });
 
 // Rotas API
@@ -21,7 +22,7 @@ var userRouter = require('./routes/user.routes');
 var pacienteRouter = require('./routes/paciente.routes');
 var nutricionistaRouter = require('./routes/nutricionista.routes');
 var dietaRouter = require('./routes/dieta.routes');
-var cumprimentoRouter = require('./routes/cumprimento.routes');
+var registoRouter = require('./routes/registo.routes');
 var mensagemRouter = require('./routes/mensagem.routes');
 var pedidoRouter = require('./routes/pedido.routes');
 
@@ -66,4 +67,12 @@ app.use(function (err, req, res, next) {
   res.json({ error: err.message });
 });
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server http://localhost:${PORT}`);
+});
+
+
 module.exports = app;
+

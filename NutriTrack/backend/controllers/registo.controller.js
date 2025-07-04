@@ -1,4 +1,4 @@
-const Registo = require('../models/Registo');
+const Registo = require('../models/Registos');
 
 exports.listarPorPaciente = async (req, res) => {
   const lista = await Registo.find({ pacienteId: req.params.pacienteId });
